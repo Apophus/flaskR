@@ -21,3 +21,18 @@ def connect_db():
     rv = sqlite3.connect(app.config['DATABASE'])
     rv.row_factory = sqlite3.Row
     return rv
+
+def get_db():
+"""creates a db connection if there's none
+yet for the app instance"""
+    if not hasattr(g, 'sqlite_db'):
+        g.sqlite_db = connect_db
+    return g.sqlite_db
+
+@app.teardown_appcontext
+def close_db(error):
+#closes db at the end ofthe request
+    if hasattr(g, 'sqlite_db')
+        gsqlite_db.close()
+
+
